@@ -6,9 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(TextMesh))]
 public class RessourceController : MonoBehaviour
 {
-    public int RessourceCount = 10;
+    public int ResourceCount = 10;
     public int HarvestSpeed = 1;
-    public RessourceType RessourceType;
+    public ResourceType ResourceType;
     private TextMesh _text;
     
     // Start is called before the first frame update
@@ -17,19 +17,31 @@ public class RessourceController : MonoBehaviour
         _text = gameObject.GetComponent<TextMesh>();
     }
 
-    public int Harvest()
+    public ResourceValue Harvest()
     {
-        RessourceCount -= HarvestSpeed;
-        _text.text = RessourceCount.ToString();
+        ResourceCount -= HarvestSpeed;
+        _text.text = ResourceCount.ToString();
         
-        if(RessourceCount <= 0)
+        if(ResourceCount <= 0)
             Destroy(gameObject);
-        
-        return HarvestSpeed;
+
+        return new ResourceValue(ResourceType, HarvestSpeed);
     }
 }
 
-public enum RessourceType
+public enum ResourceType
 {
     Wood
+}
+
+public class ResourceValue
+{
+    public ResourceValue(ResourceType type, int value)
+    {
+        Type = type;
+        Value = value;
+    }
+
+    public ResourceType Type { get; set; }
+    public int Value { get; set; }
 }

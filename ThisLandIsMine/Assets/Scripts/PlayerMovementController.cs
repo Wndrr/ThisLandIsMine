@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent (typeof(CircleCollider2D))]
 [RequireComponent (typeof(Rigidbody2D))]
-public class CharacterController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour
 {
 	/// <summary>The Transform component of the GameObject this script is attached to.</summary>
 	private Transform _transform;

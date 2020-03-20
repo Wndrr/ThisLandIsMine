@@ -4,20 +4,28 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerMovementController))]
+[RequireComponent(typeof(PlayerMouseController))]
+[RequireComponent(typeof(PlayerInventoryController))]
 public class PlayerController : MonoBehaviour
 {
-    public float SpeedCoeficient;
-    private CharacterController _characterController;
-    public Canvas PlayerUi;
-    private int TotalRessource;
+    public float speedCoeficient = .3f;
+    private PlayerMovementController _movementController;
+    private PlayerMouseController _mouseController;
+    private PlayerInventoryController _inventoryController;
+    private Transform _playerUi;
 
     public GameObject WallPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        _characterController = gameObject.GetComponent<CharacterController>();
+        _movementController = gameObject.GetComponent<PlayerMovementController>();
+        _mouseController = gameObject.GetComponent<PlayerMouseController>();
+        _mouseController.Inventory = _mouseController.GetComponent<PlayerInventoryController>();
+        _inventoryController = gameObject.GetComponent<PlayerInventoryController>();
+        _playerUi = gameObject.transform.Find("Player UI");
+        _inventoryController.Ui = _playerUi.GetComponent<PlayerUiController>();
     }
 
     // Update is called once per frame
@@ -25,8 +33,8 @@ public class PlayerController : MonoBehaviour
     {
         var x = Input.GetAxis("Horizontal");
         var y = Input.GetAxis("Vertical");
-        var targetPosition = new Vector2(x, y) * SpeedCoeficient;
-        _characterController.Move(targetPosition);
+        var targetPosition = new Vector2(x, y) * speedCoeficient;
+        _movementController.Move(targetPosition);
 
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(0))
         {
@@ -35,22 +43,7 @@ public class PlayerController : MonoBehaviour
             Instantiate(WallPrefab, spawnPosition, Quaternion.identity);
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            var hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+        _mouseController.HandleLeftClick();
 
-            if (hit.collider != null)
-            {
-                if (hit.transform.CompareTag("collectable"))
-                {
-                    var ressource = hit.collider.GetComponentInParent<RessourceController>();
-                    var harvestedRessource = ressource.Harvest();
-                    var ressourceCount = PlayerUi.GetComponentsInChildren<Text>().First(t => t.name == "RessourceCount");
-                    TotalRessource += harvestedRessource;
-                    ressourceCount.text = $"Wood: {TotalRessource}";
-                }
-            }
-        }
     }
 }
