@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public Canvas PlayerUi;
     private int TotalRessource;
 
+    public GameObject WallPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,12 @@ public class PlayerController : MonoBehaviour
         var targetPosition = new Vector2(x, y) * SpeedCoeficient;
         _characterController.Move(targetPosition);
 
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(0))
+        {
+            var spawnPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            spawnPosition.z = 0;
+            Instantiate(WallPrefab, spawnPosition, Quaternion.identity);
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
