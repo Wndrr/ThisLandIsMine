@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,13 +24,8 @@ public class PlayerMouseController : MonoBehaviour
                     var harvestedRessource = ressource.Harvest();
                     Inventory.AddToResource(harvestedRessource);
                 }
-                else if(hit.transform.CompareTag("enemy"))
-                {
-                    var enemy = hit.collider.GetComponent<EnemyController>();
-                    enemy.Hit();
-                }
             }
-        }
+        }        
     }
 
 }

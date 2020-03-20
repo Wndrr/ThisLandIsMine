@@ -6,10 +6,11 @@ using System.Text;
 using UnityEngine;
 
 public class PlayerInventoryController : MonoBehaviour
-{    
+{
     private Dictionary<ResourceType, int> Ressources { get; set; } = new Dictionary<ResourceType, int>();
     public PlayerUiController Ui { get; set; }
     private List<Item> Inventory = new List<Item>();
+
     private List<Item> CraftableItems = new List<Item>()
     {
         new WoodenThrowingKnife()
@@ -21,7 +22,7 @@ public class PlayerInventoryController : MonoBehaviour
         {
             CraftItem();
             Ui.UpdateResources(Ressources);
-            Ui.UpdateInventory(Inventory,CraftableItems, Ressources);
+            Ui.UpdateInventory(Inventory, CraftableItems, Ressources);
         }
     }
 
@@ -40,7 +41,6 @@ public class PlayerInventoryController : MonoBehaviour
             {
                 item.Count += createdCount;
             }
-
         }
     }
 
@@ -48,7 +48,7 @@ public class PlayerInventoryController : MonoBehaviour
     {
         return AddToResource(resourceValue.Type, resourceValue.Value);
     }
-    
+
     public int AddToResource(ResourceType type, int numberToAdd)
     {
         if (Ressources.ContainsKey(type))
@@ -61,7 +61,25 @@ public class PlayerInventoryController : MonoBehaviour
         }
 
         Ui.UpdateResources(Ressources);
-        Ui.UpdateInventory(Inventory,CraftableItems, Ressources);
+        Ui.UpdateInventory(Inventory, CraftableItems, Ressources);
         return Ressources[type];
-    }   
+    }
+
+    public bool HasItem()
+    {
+        var item = Inventory.SingleOrDefault(i => i.Id == 1);
+        if(item == null)
+            return false;
+        return item.Count > 0;
+    }
+
+    public void RemoveItem()
+    {
+        var item = Inventory.SingleOrDefault(i => i.Id == 1);
+        if(item == null)
+            return;
+
+        item.Count -= 1;
+        Ui.UpdateInventory(Inventory, CraftableItems, Ressources);
+    }
 }

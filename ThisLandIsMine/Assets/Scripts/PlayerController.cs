@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Transform _playerUi;
 
     public GameObject WallPrefab;
+    public GameObject KnifePrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +45,23 @@ public class PlayerController : MonoBehaviour
             Instantiate(WallPrefab, spawnPosition, Quaternion.identity);
         }
 
-        _mouseController.HandleLeftClick();
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (_inventoryController.HasItem())
+            {
+                var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToVector2();
+                var playerPosition = gameObject.transform.position.ToVector2();
+                var throwDirection = (mousePosition - playerPosition).normalized;
+                var throwStartingPosition = playerPosition + throwDirection;
+                var knifeRotation = Quaternion.LookRotation(throwDirection);
+                var tt = Instantiate(KnifePrefab, throwStartingPosition, knifeRotation);
+                var thrownKnife = tt.GetComponent<ThrowableWeapon>();
+                thrownKnife.Direction = throwDirection;
+                _inventoryController.RemoveItem();
+            }
+        }
+
+        _mouseController.HandleLeftClick();
     }
 }
