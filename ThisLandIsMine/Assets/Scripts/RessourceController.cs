@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 
 [RequireComponent(typeof(TextMesh))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class RessourceController : MonoBehaviour
 {
     public int ResourceCount = 10;

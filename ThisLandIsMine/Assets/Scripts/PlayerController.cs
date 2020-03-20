@@ -4,13 +4,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(PlayerMovementController))]
+[RequireComponent(typeof(CharacterMovementController))]
 [RequireComponent(typeof(PlayerMouseController))]
 [RequireComponent(typeof(PlayerInventoryController))]
 public class PlayerController : MonoBehaviour
 {
     public float speedCoeficient = .3f;
-    private PlayerMovementController _movementController;
+    private CharacterMovementController _movementController;
     private PlayerMouseController _mouseController;
     private PlayerInventoryController _inventoryController;
     private Transform _playerUi;
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _movementController = gameObject.GetComponent<PlayerMovementController>();
+        _movementController = gameObject.GetComponent<CharacterMovementController>();
         _mouseController = gameObject.GetComponent<PlayerMouseController>();
         _mouseController.Inventory = _mouseController.GetComponent<PlayerInventoryController>();
         _inventoryController = gameObject.GetComponent<PlayerInventoryController>();
