@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 [RequireComponent(typeof(MeshFilter))]
-public class MeshGenerator : MonoBehaviour
+public class MapGenerator : MonoBehaviour
 {
     private Mesh mesh;
     private Vector3[] vertices;
@@ -12,6 +13,8 @@ public class MeshGenerator : MonoBehaviour
 
     public int xSize = 20;
     public int zSize = 20;
+    public GameObject resourcePrefab;
+    public int resourcesCount = 400;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,20 @@ public class MeshGenerator : MonoBehaviour
         CreateShape();
         UpdateMesh();
         GetComponent<MeshCollider>().sharedMesh = mesh;
+        SpawnResources();
+    }
+
+    private void SpawnResources()
+    {
+        var rand = new Random();
+
+        for (int i = 0; i < resourcesCount; i++)
+        {
+            var randomPosition = rand.Next(0, mesh.vertices.Length);
+            var targetSpawnVertex = vertices[randomPosition];
+            Instantiate(resourcePrefab, targetSpawnVertex, Quaternion.identity);
+        }
+
     }
 
     private void CreateShape()
@@ -34,8 +51,8 @@ public class MeshGenerator : MonoBehaviour
         {
             for (var x = 0; x <= xSize; x++)
             {
-                var y = Mathf.PerlinNoise(x * .3f, z * .3f) * 2f;
-                vertices[i] = new Vector3(x, y, z) / 10;
+                var y = Mathf.PerlinNoise(x * .3f, z * 1.5f) * 1.5f;
+                vertices[i] = new Vector3(x, y, z);
                 i++;
             }
         }

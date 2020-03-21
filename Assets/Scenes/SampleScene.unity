@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 588572683}
   - component: {fileID: 588572680}
   m_Layer: 0
-  m_Name: MeshGenerator
+  m_Name: MapGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,6 +287,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSize: 200
   zSize: 200
+  resourcePrefab: {fileID: 7086997052409992146, guid: bc79d632b15c48c44adc886323f28594,
+    type: 3}
+  resourcesCount: 400
 --- !u!64 &588572683
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -566,5 +569,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f015a1c8c70d946ab70a9ff4dd5a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 20
+  turnSpeed: 5
   speed: 4
