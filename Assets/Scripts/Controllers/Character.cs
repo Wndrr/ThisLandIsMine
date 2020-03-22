@@ -14,6 +14,7 @@ public class Character : MonoBehaviour
     public float turnSpeed = 10;
     public float speed = 1;
     private bool _isPlayerControlEnabled;
+    public GameObject throwable;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,15 @@ public class Character : MonoBehaviour
         PlayerMovement();
         CameraMovement();
         HandleLeftClick();
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            var transformPosition = transform.position;
+            transformPosition += transform.forward;
+            transformPosition.y += transform.lossyScale.y;
+            var transformRotation = Camera.main.transform.rotation;
+            Instantiate(throwable, transformPosition, transformRotation);
+        }
 
         if (Input.GetKeyDown(KeyCode.I))
             Events.current.TriggerToggleCraftingOverlay();

@@ -401,7 +401,7 @@ MonoBehaviour:
   zSize: 200
   resourcePrefab: {fileID: 7086997052409992146, guid: bc79d632b15c48c44adc886323f28594,
     type: 3}
-  resourcesCount: 400
+  resourcesCount: 10
 --- !u!64 &588572683
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1105,6 +1105,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 5
   speed: 6
+  throwable: {fileID: 8019020358191587096, guid: 28109a43ba5229b4595a42ea369a6e41,
+    type: 3}
 --- !u!114 &1454477306
 MonoBehaviour:
   m_ObjectHideFlags: 0
