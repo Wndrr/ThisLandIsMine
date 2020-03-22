@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  LootPrefab: {fileID: 1970392161794883174, guid: 06efbe761929610429a92003a8e50f08,
+  lootPrefab: {fileID: 1970392161794883174, guid: 06efbe761929610429a92003a8e50f08,
     type: 3}
 --- !u!114 &1987950131
 MonoBehaviour:
@@ -139,3 +139,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ef2b115e0c3af458625234ff3c7af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 6
+  targetPositionMaxDistance: 20
