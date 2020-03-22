@@ -7,6 +7,8 @@ using Random = System.Random;
 [RequireComponent(typeof(CharacterController))]
 public class Mob : MonoBehaviour
 {
+    private int Health = 3;
+    
     private CharacterController _controller;
     private Vector3 _targetPosition;
     private int speed = 6;
@@ -59,5 +61,13 @@ public class Mob : MonoBehaviour
 
         _targetPosition = targetPosition;
         _isTargetPositionReached = false;
+    }
+
+    public void Hit()
+    {
+        Health--;
+            
+            if(Health <= 0)
+                Destroy(this.gameObject);
     }
 }

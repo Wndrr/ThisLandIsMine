@@ -26,7 +26,8 @@ public class Throwable : MonoBehaviour
     {
         if (other.collider.CompareTag("Mob"))
         {
-            Destroy(other.gameObject);
+            var mob = other.gameObject.GetComponent<Mob>();
+            mob.Hit();
             Destroy(gameObject);
         }
     }
