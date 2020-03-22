@@ -1,4 +1,7 @@
-﻿public enum MobType
+﻿namespace Data.Models
 {
-    DefaultMob
+    public enum MobType
+    {
+        DefaultMob
+    }
 }

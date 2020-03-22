@@ -1,8 +1,11 @@
-﻿public enum ItemId
+﻿namespace Data.Models
 {
-    Branch,
-    ThrowableStick,
-    MobMeat,
-    MobSkin,
-    MobBone
+    public enum ItemId
+    {
+        Branch,
+        ThrowableStick,
+        MobMeat,
+        MobSkin,
+        MobBone
+    }
 }

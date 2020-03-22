@@ -1,4 +1,7 @@
-﻿public enum ResourceEntityType
+﻿namespace Data.Models
 {
-    Bush
+    public enum ResourceEntityType
+    {
+        Bush
+    }
 }
