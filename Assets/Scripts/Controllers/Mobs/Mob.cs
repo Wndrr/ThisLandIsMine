@@ -9,27 +9,17 @@ namespace Controllers.Mobs
     [RequireComponent(typeof(MobAi))]
     public class Mob : MonoBehaviour
     {
-        private int Health = 3;
+        private int _health = 3;
         public MobType type;
-        public GameObject LootPrefab;
-
-        // Start is called before the first frame update
-        void Start()
-        {
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        }
+        public GameObject lootPrefab;
 
         public void Hit()
         {
-            Health--;
+            _health--;
 
-            if (Health <= 0)
+            if (_health <= 0)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
 
                 SpawnLoot();
             }
@@ -47,9 +37,9 @@ namespace Controllers.Mobs
 
         private void SpawnItem(ItemQuantity item)
         {
-            for (int i = 0; i < item.Quantity; i++)
+            for (var i = 0; i < item.Quantity; i++)
             {
-                var spawnedItem = Instantiate(LootPrefab, transform.position + (transform.up * 2), Quaternion.identity);
+                var spawnedItem = Instantiate(lootPrefab, transform.position + (transform.up * 2), Quaternion.identity);
                 spawnedItem.GetComponent<ItemEntity>().id = item.Id;
             }        
         }
@@ -59,11 +49,11 @@ namespace Controllers.Mobs
             switch (type)
             {
                 case MobType.DefaultMob:
-                    return new List<ItemQuantity>()
+                    return new List<ItemQuantity>
                     {
                         new ItemQuantity(ItemId.MobSkin, 1),
                         new ItemQuantity(ItemId.MobMeat, 1),
-                        new ItemQuantity(ItemId.MobBone, 1),
+                        new ItemQuantity(ItemId.MobBone, 1)
                     };
                     break;
                 default:

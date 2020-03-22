@@ -17,12 +17,12 @@ namespace Controllers.Player
         public GameObject throwable;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             controller = GetComponent<CharacterController>();
             _inventory = GetComponent<Inventory>();
 
-            Events.current.OnToggleCraftingOverlay += TogglePlayerControl;
+            Events.Current.OnToggleCraftingOverlay += TogglePlayerControl;
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -34,7 +34,7 @@ namespace Controllers.Player
             _isPlayerControlEnabled = !_isPlayerControlEnabled;
         }
 
-        void Update()
+        private void Update()
         {
             PlayerMovement();
             CameraMovement();
@@ -50,7 +50,7 @@ namespace Controllers.Player
             }
 
             if (Input.GetKeyDown(KeyCode.I))
-                Events.current.TriggerToggleCraftingOverlay();
+                Events.Current.TriggerToggleCraftingOverlay();
         }
 
         private void HandleLeftClick()
@@ -72,7 +72,8 @@ namespace Controllers.Player
                             _inventory.Add(obtainedItems);
                             break;
                         }
-                        else if (hit.collider.gameObject.CompareTag("ItemEntity"))
+
+                        if (hit.collider.gameObject.CompareTag("ItemEntity"))
                         {
                             var obtainedItems = hit.collider.gameObject.GetComponent<ItemEntity>().Harvest();
 
@@ -110,7 +111,7 @@ namespace Controllers.Player
 
             transform.Rotate(0, mouseXOffset * turnSpeed, 0);
 
-            Vector3 direction = new Vector3();
+            var direction = new Vector3();
             if (Input.GetKey(KeyCode.Z))
                 direction = transform.forward;
             if (Input.GetKey(KeyCode.S))
@@ -126,7 +127,7 @@ namespace Controllers.Player
 
         private void OnDestroy()
         {
-            Events.current.OnToggleCraftingOverlay -= TogglePlayerControl;
+            Events.Current.OnToggleCraftingOverlay -= TogglePlayerControl;
         }
     }
 }

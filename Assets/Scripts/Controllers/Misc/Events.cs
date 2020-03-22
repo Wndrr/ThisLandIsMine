@@ -7,11 +7,11 @@ namespace Controllers.Misc
 {
     public class Events : MonoBehaviour
     {
-        public static Events current;
+        public static Events Current;
 
         private void Awake()
         {
-            current = this;
+            Current = this;
         }
 
         public event Action<List<ItemQuantity>> OnInventoryUpdate;

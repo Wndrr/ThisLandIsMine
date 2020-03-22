@@ -8,20 +8,20 @@ namespace Controllers.Mobs
     {
         private CharacterController _controller;
         private Vector3 _targetPosition;
-        private int speed = 6;
-        private bool _isTargetPositionReached = false;
+        private bool _isTargetPositionReached;
 
-        private int _targetPositionMaxDistance = 20;
+        public int speed = 6;
+        public int targetPositionMaxDistance = 20;
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            var random = new System.Random();
+            var random = new Random();
             _controller = GetComponent<CharacterController>();
             InvokeRepeating(nameof(ChoseNewTargetPosition), 1f, random.Next(3, 15));
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (!_isTargetPositionReached)
                 Move();
@@ -42,8 +42,8 @@ namespace Controllers.Mobs
         {
             var rand = new Random();
 
-            var xOffset = rand.Next(-_targetPositionMaxDistance, _targetPositionMaxDistance);
-            var zOffset = rand.Next(-_targetPositionMaxDistance, _targetPositionMaxDistance);
+            var xOffset = rand.Next(-targetPositionMaxDistance, targetPositionMaxDistance);
+            var zOffset = rand.Next(-targetPositionMaxDistance, targetPositionMaxDistance);
 
             var targetPosition = transform.position;
             targetPosition.x += xOffset;

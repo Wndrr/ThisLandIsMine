@@ -6,9 +6,9 @@ namespace Controllers.Misc
     [RequireComponent(typeof(MeshFilter))]
     public class MapGenerator : MonoBehaviour
     {
-        private Mesh mesh;
-        private Vector3[] vertices;
-        private int[] triangles;
+        private Mesh _mesh;
+        private Vector3[] _vertices;
+        private int[] _triangles;
 
         public int xSize = 20;
         public int zSize = 20;
@@ -16,15 +16,15 @@ namespace Controllers.Misc
         public int resourcesCount = 400;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            mesh = new Mesh();
+            _mesh = new Mesh();
             var meshFilter = GetComponent<MeshFilter>();
-            meshFilter.mesh = mesh;
+            meshFilter.mesh = _mesh;
 
             CreateShape();
             UpdateMesh();
-            GetComponent<MeshCollider>().sharedMesh = mesh;
+            GetComponent<MeshCollider>().sharedMesh = _mesh;
             SpawnResources();
         }
 
@@ -32,10 +32,10 @@ namespace Controllers.Misc
         {
             var rand = new Random();
 
-            for (int i = 0; i < resourcesCount; i++)
+            for (var i = 0; i < resourcesCount; i++)
             {
-                var randomPosition = rand.Next(0, mesh.vertices.Length);
-                var targetSpawnVertex = vertices[randomPosition];
+                var randomPosition = rand.Next(0, _mesh.vertices.Length);
+                var targetSpawnVertex = _vertices[randomPosition];
                 Instantiate(resourcePrefab, targetSpawnVertex, Quaternion.identity);
             }
 
@@ -43,7 +43,7 @@ namespace Controllers.Misc
 
         private void CreateShape()
         {
-            vertices = new Vector3[(xSize + 1) * (zSize + 1)];
+            _vertices = new Vector3[(xSize + 1) * (zSize + 1)];
 
             var i = 0;
             for (var z = 0; z <= zSize; z++)
@@ -51,24 +51,24 @@ namespace Controllers.Misc
                 for (var x = 0; x <= xSize; x++)
                 {
                     var y = Mathf.PerlinNoise(x * .3f, z * 1.5f) * 1.5f;
-                    vertices[i] = new Vector3(x, y, z);
+                    _vertices[i] = new Vector3(x, y, z);
                     i++;
                 }
             }
 
-            triangles = new int[xSize * zSize * 6];
+            _triangles = new int[xSize * zSize * 6];
             var vert = 0;
             var tris = 0;
-            for (int z = 0; z < zSize; z++)
+            for (var z = 0; z < zSize; z++)
             {
-                for (int x = 0; x < xSize; x++)
+                for (var x = 0; x < xSize; x++)
                 {
-                    triangles[tris + 0] = vert + 0;
-                    triangles[tris + 1] = vert + xSize + 1;
-                    triangles[tris + 2] = vert + 1;
-                    triangles[tris + 3] = vert + 1;
-                    triangles[tris + 4] = vert + xSize + 1;
-                    triangles[tris + 5] = vert + xSize + 2;
+                    _triangles[tris + 0] = vert + 0;
+                    _triangles[tris + 1] = vert + xSize + 1;
+                    _triangles[tris + 2] = vert + 1;
+                    _triangles[tris + 3] = vert + 1;
+                    _triangles[tris + 4] = vert + xSize + 1;
+                    _triangles[tris + 5] = vert + xSize + 2;
                     vert++;
                     tris += 6;
                 }
@@ -79,9 +79,9 @@ namespace Controllers.Misc
 
         private void UpdateMesh()
         {
-            mesh.Clear();
-            mesh.vertices = vertices;
-            mesh.triangles = triangles;
+            _mesh.Clear();
+            _mesh.vertices = _vertices;
+            _mesh.triangles = _triangles;
         }
     }
 }

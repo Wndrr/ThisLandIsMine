@@ -10,16 +10,12 @@ namespace Controllers.Items
         private Rigidbody _rigidbody;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _rigidbody.AddForce(transform.forward * 1000); //Moving projectile
-            _rigidbody.AddTorque(transform.forward * 3);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
+            var forwardVector = transform.forward;
+            _rigidbody.AddForce(forwardVector * 1000); //Moving projectile
+            _rigidbody.AddTorque(forwardVector * 3);
         }
 
         private void OnCollisionEnter(Collision other)

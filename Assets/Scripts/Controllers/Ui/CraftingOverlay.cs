@@ -10,10 +10,10 @@ namespace Controllers.Ui
 
         private Canvas _canvas;
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            Events.current.OnToggleCraftingOverlay += ToggleCraftingOverlay;
-            GetComponentInChildren<Button>().onClick.AddListener(() =>  Events.current.TriggerCraftThing(ItemId.ThrowableStick));
+            Events.Current.OnToggleCraftingOverlay += ToggleCraftingOverlay;
+            GetComponentInChildren<Button>().onClick.AddListener(() =>  Events.Current.TriggerCraftThing(ItemId.ThrowableStick));
             _canvas = GetComponent<Canvas>();
             _canvas.enabled = false;
         }
@@ -31,7 +31,7 @@ namespace Controllers.Ui
 
         private void OnDestroy()
         {
-            Events.current.OnToggleCraftingOverlay -= ToggleCraftingOverlay;
+            Events.Current.OnToggleCraftingOverlay -= ToggleCraftingOverlay;
         }
     }
 }

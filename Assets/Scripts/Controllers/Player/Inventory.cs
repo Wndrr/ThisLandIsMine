@@ -18,7 +18,7 @@ namespace Controllers.Player
         private void Start()
         {
             _ui = GetComponent<Ui.Ui>();
-            Events.current.OnCraftThing += CraftThing;
+            Events.Current.OnCraftThing += CraftThing;
         }
 
         public void Add(ItemQuantity obtainedItems)
@@ -35,7 +35,7 @@ namespace Controllers.Player
                 Items.Add(obtainedItems);
             }
 
-            Events.current.TriggerInventoryUpdate(Items);
+            Events.Current.TriggerInventoryUpdate(Items);
         }
 
         public void Remove(params ItemQuantity[] removedItems)
@@ -91,7 +91,7 @@ namespace Controllers.Player
                 Remove(itemToCraft.Recipe.ToArray());
                 Add(new ItemQuantity(ItemId.ThrowableStick, 1));
 
-                Events.current.TriggerInventoryUpdate(Items);
+                Events.Current.TriggerInventoryUpdate(Items);
             }
         }
     }

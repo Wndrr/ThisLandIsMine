@@ -9,7 +9,7 @@ namespace Data
         public static ItemsDatabase Instance;
         public List<Item> items;
         // Start is called before the first frame update
-        void Awake()
+        private void Awake()
         {
             Instance = this;
             SeedDatabase();
@@ -21,7 +21,7 @@ namespace Data
             items = new List<Item>
             {
                 new Item(ItemId.Branch, "Branch"),
-                new Item(ItemId.ThrowableStick, "Throwable stick", new List<ItemQuantity>()
+                new Item(ItemId.ThrowableStick, "Throwable stick", new List<ItemQuantity>
                 {
                     new ItemQuantity(ItemId.Branch, 2)
                 })

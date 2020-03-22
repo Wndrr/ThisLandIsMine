@@ -13,15 +13,15 @@ namespace Controllers.Ui
         private Text _inventoryText;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            Events.current.OnInventoryUpdate += OnInventoryUpdate;
+            Events.Current.OnInventoryUpdate += OnInventoryUpdate;
             _inventoryText = GetComponentInChildren<Text>();
         
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
         
         }
@@ -36,7 +36,7 @@ namespace Controllers.Ui
 
         public void OnDestroy()
         {
-            Events.current.OnInventoryUpdate -= OnInventoryUpdate;
+            Events.Current.OnInventoryUpdate -= OnInventoryUpdate;
         }
     }
 }
