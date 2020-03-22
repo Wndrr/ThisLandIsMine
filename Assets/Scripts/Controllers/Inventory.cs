@@ -34,11 +34,19 @@ public class Inventory : MonoBehaviour
         Events.current.TriggerInventoryUpdate(Items);
     }
 
+    public void Remove(params ItemQuantity[] removedItems)
+    {
+        foreach (var item in removedItems)
+        {
+            Remove(item);
+        }
+    }
+    
     public void Remove(ItemQuantity removedItems)
     {
         var alreadyStoredItemQuantity = Items.SingleOrDefault(i => i.Id == removedItems.Id);
         if (alreadyStoredItemQuantity == null) return;
-        
+
         if (alreadyStoredItemQuantity.Quantity < removedItems.Quantity)
         {
             Items.Remove(alreadyStoredItemQuantity);
@@ -51,12 +59,35 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void CraftThing()
+    private bool CanRecipeBeCrafted(IEnumerable<ItemQuantity> recipe)
     {
-        var requiredResource = new ItemQuantity(ItemId.Branch, 1);
-        Remove(requiredResource);
-        Add(new ItemQuantity(ItemId.Thing, 1));
-        
-        Events.current.TriggerInventoryUpdate(Items);
+        return recipe.All(HasEnoughOfThisItem);
+    }
+
+    private bool HasEnoughOfThisItem(ItemQuantity searchedItem)
+    {
+        var alreadyStoredItemQuantity = Items.SingleOrDefault(i => i.Id == searchedItem.Id);
+        if (alreadyStoredItemQuantity == null) return false;
+
+        return alreadyStoredItemQuantity.Quantity >= searchedItem.Quantity;
+    }
+
+    private void CraftThing(ItemId id)
+    {
+        var itemToCraft = ItemsDatabase.Items.SingleOrDefault(s => s.Id == id);
+
+        if (itemToCraft == null)
+            throw new InvalidOperationException($"Item with id {id} does not exist");
+
+        if (!itemToCraft.IsCraftable)
+            throw new InvalidOperationException($"Item {itemToCraft} cannot be crafted");
+
+        if (CanRecipeBeCrafted(itemToCraft.Recipe))
+        {
+            Remove(itemToCraft.Recipe.ToArray());
+            Add(new ItemQuantity(ItemId.ThrowableStick, 1));
+
+            Events.current.TriggerInventoryUpdate(Items);
+        }
     }
 }
