@@ -1249,9 +1249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3f435bb4cff614c8db2be0854bda88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MobPrefab: {fileID: 1468732658562415599, guid: ea00f94f204ee4444927d6729d99faed,
+  mobPrefab: {fileID: 1468732658562415599, guid: ea00f94f204ee4444927d6729d99faed,
     type: 3}
-  DesiredMobsCount: 10
+  desiredMobsCount: 10
 --- !u!4 &1876762400
 Transform:
   m_ObjectHideFlags: 0
