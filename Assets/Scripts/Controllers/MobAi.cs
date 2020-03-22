@@ -15,8 +15,9 @@ public class MobAi : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        var random = new System.Random();
         _controller = GetComponent<CharacterController>();
-        InvokeRepeating(nameof(ChoseNewTargetPosition), 1f, 10f);
+        InvokeRepeating(nameof(ChoseNewTargetPosition), 1f, random.Next(3, 15));
     }
 
     // Update is called once per frame
