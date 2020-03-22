@@ -1,0 +1,83 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+[RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshCollider))]
+[RequireComponent(typeof(MeshFilter))]
+public class Chunk : MonoBehaviour
+{
+    private Mesh _mesh;
+    private Vector3[] _vertices;
+    private int[] _triangles;
+    private int ChunkSize { get; set; }
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void Load(int chunkSize)
+    {
+        _mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = _mesh;
+        GetComponent<MeshCollider>().sharedMesh = _mesh;
+        ChunkSize = chunkSize;
+
+        CreateShape();
+        
+        _mesh.Clear();
+        _mesh.vertices = _vertices.Select(vertex => vertex + transform.position).ToArray();
+        transform.position = Vector3.zero;
+        _mesh.triangles = _triangles;
+    }
+    
+    private void CreateShape()
+    {
+        _vertices = new Vector3[(ChunkSize + 1) * (ChunkSize + 1)];
+
+        var i = 0;
+        for (var z = 0; z <= ChunkSize; z++)
+        {
+            for (var x = 0; x <= ChunkSize; x++)
+            {
+                
+                var y = Mathf.PerlinNoise((transform.position.x + x  )* .004f, (transform.position.z + z) * .004f) * 30;
+                _vertices[i] = new Vector3(x, y, z);
+                i++;
+            }
+        }
+
+        _triangles = new int[ChunkSize * ChunkSize * 6];
+        var vert = 0;
+        var tris = 0;
+        for (var z = 0; z < ChunkSize; z++)
+        {
+            for (var x = 0; x < ChunkSize; x++)
+            {
+                _triangles[tris + 0] = vert + 0;
+                _triangles[tris + 1] = vert + ChunkSize + 1;
+                _triangles[tris + 2] = vert + 1;
+                _triangles[tris + 3] = vert + 1;
+                _triangles[tris + 4] = vert + ChunkSize + 1;
+                _triangles[tris + 5] = vert + ChunkSize + 2;
+                vert++;
+                tris += 6;
+            }
+
+            vert++;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position, 1);
+    }
+}

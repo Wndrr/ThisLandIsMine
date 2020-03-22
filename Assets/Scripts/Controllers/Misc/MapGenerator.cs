@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 using Random = System.Random;
 
 namespace Controllers.Misc
@@ -50,8 +52,8 @@ namespace Controllers.Misc
             {
                 for (var x = 0; x <= xSize; x++)
                 {
-                    var y = Mathf.PerlinNoise(x * .3f, z * 1.5f) * 1.5f;
-                    _vertices[i] = new Vector3(x, y, z);
+                    var y = Mathf.PerlinNoise(x * .1f, z * .1f) * 5f;
+                    _vertices[i] = new Vector3(x, 0, z);
                     i++;
                 }
             }
@@ -75,6 +77,11 @@ namespace Controllers.Misc
 
                 vert++;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawSphere(_vertices.Last(), 10);
         }
 
         private void UpdateMesh()
