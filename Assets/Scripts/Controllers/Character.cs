@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Inventory))]
 public class Character : MonoBehaviour
 {
     private CharacterController controller;
+    private Inventory _inventory;
     public float turnSpeed = 10;
     public float speed = 1;
 
@@ -15,6 +18,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        _inventory = GetComponent<Inventory>();
     }
 
     void Update()
@@ -51,5 +55,23 @@ public class Character : MonoBehaviour
 
         main.transform.position = newPos;
         main.transform.LookAt(transform);
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            var rayOrigin = transform.position;
+            var rayDirection = Camera.main.transform.forward;
+            var hits = Physics.RaycastAll(rayOrigin, rayDirection, 5);
+
+            if (hits.Any())
+            {
+                var resource = hits.FirstOrDefault();
+                if (resource.collider.gameObject.CompareTag("Resource"))
+                {
+                    var obtainedItems = resource.collider.gameObject.GetComponent<Resource>().Harvest();
+                    _inventory.Add(obtainedItems);
+                }
+            }
+        }
     }
 }

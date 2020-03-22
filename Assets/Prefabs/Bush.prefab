@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 7934973456451421059}
   - component: {fileID: 7275010277951793976}
   - component: {fileID: 118883619852872553}
+  - component: {fileID: 7261638937112797766}
   m_Layer: 0
   m_Name: Bush
-  m_TagString: Untagged
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,3 +92,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7261638937112797766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7086997052409992146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037dfeba816cf3e489ab7a34b80daabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceCount: 2
+  harvestSpeed: 1
+  type: 0
