@@ -30,6 +30,6 @@ public class Inventory : MonoBehaviour
             Items.Add(obtainedItems);
         }
 
-        _ui.UpdateInventory(Items);
+        Events.current.TriggerInventoryUpdate(Items);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -8,10 +9,13 @@ public class Ui : MonoBehaviour
 {
 
     private Text _inventoryText;
+
     // Start is called before the first frame update
     void Start()
     {
+        Events.current.OnInventoryUpdate += OnInventoryUpdate;
         _inventoryText = GetComponentInChildren<Text>();
+        
     }
 
     // Update is called once per frame
@@ -20,7 +24,7 @@ public class Ui : MonoBehaviour
         
     }
 
-    public void UpdateInventory(List<ItemQuantity> items)
+    public void OnInventoryUpdate(List<ItemQuantity> items)
     {
         var builder = new StringBuilder();
         items.ForEach(i => builder.AppendLine(i.ToString()));
