@@ -14,6 +14,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         _ui = GetComponent<Ui>();
+        Events.current.OnCraftThing += CraftThing;
     }
 
     public void Add(ItemQuantity obtainedItems)
@@ -30,6 +31,32 @@ public class Inventory : MonoBehaviour
             Items.Add(obtainedItems);
         }
 
+        Events.current.TriggerInventoryUpdate(Items);
+    }
+
+    public void Remove(ItemQuantity removedItems)
+    {
+        var alreadyStoredItemQuantity = Items.SingleOrDefault(i => i.Id == removedItems.Id);
+        if (alreadyStoredItemQuantity == null) return;
+        
+        if (alreadyStoredItemQuantity.Quantity < removedItems.Quantity)
+        {
+            Items.Remove(alreadyStoredItemQuantity);
+        }
+        else
+        {
+            alreadyStoredItemQuantity.Quantity -= removedItems.Quantity;
+            Items.Remove(alreadyStoredItemQuantity);
+            Items.Add(alreadyStoredItemQuantity);
+        }
+    }
+
+    private void CraftThing()
+    {
+        var requiredResource = new ItemQuantity(ItemId.Branch, 1);
+        Remove(requiredResource);
+        Add(new ItemQuantity(ItemId.Thing, 1));
+        
         Events.current.TriggerInventoryUpdate(Items);
     }
 }

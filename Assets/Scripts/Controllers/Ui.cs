@@ -31,4 +31,9 @@ public class Ui : MonoBehaviour
 
         _inventoryText.text = builder.ToString();
     }
+
+    public void OnDestroy()
+    {
+        Events.current.OnInventoryUpdate -= OnInventoryUpdate;
+    }
 }

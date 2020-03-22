@@ -13,26 +13,34 @@ public class Character : MonoBehaviour
     private Inventory _inventory;
     public float turnSpeed = 10;
     public float speed = 1;
-    private bool shouldCameraMove;
+    private bool _isPlayerControlEnabled;
 
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
         _inventory = GetComponent<Inventory>();
-        
+
+        Events.current.OnToggleCraftingOverlay += TogglePlayerControl;
 
         Cursor.visible = false;
-        shouldCameraMove = true;
         Cursor.lockState = CursorLockMode.Locked;
+        _isPlayerControlEnabled = true;
+    }
+
+    private void TogglePlayerControl()
+    {
+        _isPlayerControlEnabled = !_isPlayerControlEnabled;
     }
 
     void Update()
     {
-        HandleLeftAltKey();
         PlayerMovement();
         CameraMovement();
         HandleLeftClick();
+
+        if (Input.GetKeyDown(KeyCode.I))
+            Events.current.TriggerToggleCraftingOverlay();
     }
 
     private void HandleLeftClick()
@@ -49,37 +57,34 @@ public class Character : MonoBehaviour
                 if (resource.collider.gameObject.CompareTag("Resource"))
                 {
                     var obtainedItems = resource.collider.gameObject.GetComponent<Resource>().Harvest();
-                    
+
                     _inventory.Add(obtainedItems);
                 }
             }
         }
     }
-
-    private void OnInventoryUpdateChange()
-    {
-        
-    }
-
+    
     private void CameraMovement()
     {
+        if (!_isPlayerControlEnabled)
+            return;
         var main = Camera.main;
         var tt = (-transform.forward + transform.up) * 4;
         var targetPost = transform.position + tt;
 
-        if (shouldCameraMove)
-        {
-            var newPos = new Vector3(targetPost.x, main.transform.position.y, targetPost.z);
-            var mouseYOffset = -Input.GetAxis("Mouse Y");
-            newPos += main.transform.up * mouseYOffset;
+        var newPos = new Vector3(targetPost.x, main.transform.position.y, targetPost.z);
+        var mouseYOffset = -Input.GetAxis("Mouse Y");
+        newPos += main.transform.up * mouseYOffset;
 
-            main.transform.position = newPos;
-            main.transform.LookAt(transform);
-        }
+        main.transform.position = newPos;
+        main.transform.LookAt(transform);
     }
 
     private void PlayerMovement()
     {
+        if (!_isPlayerControlEnabled)
+            return;
+
         var mouseXOffset = Input.GetAxis("Mouse X");
 
         transform.Rotate(0, mouseXOffset * turnSpeed, 0);
@@ -98,20 +103,8 @@ public class Character : MonoBehaviour
         controller.SimpleMove(direction * speed);
     }
 
-    private void HandleLeftAltKey()
+    private void OnDestroy()
     {
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            shouldCameraMove = false;
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftAlt))
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            shouldCameraMove = true;
-        }
+        Events.current.OnToggleCraftingOverlay -= TogglePlayerControl;
     }
 }
