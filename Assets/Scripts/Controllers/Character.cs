@@ -63,13 +63,24 @@ public class Character : MonoBehaviour
 
             if (hits.Any())
             {
-                var resource = hits.FirstOrDefault();
-                if (resource.collider.gameObject.CompareTag("Resource"))
+                foreach (var hit in hits)
                 {
-                    var obtainedItems = resource.collider.gameObject.GetComponent<Resource>().Harvest();
+                    if (hit.collider.gameObject.CompareTag("Resource"))
+                    {
+                        var obtainedItems = hit.collider.gameObject.GetComponent<Resource>().Harvest();
 
-                    _inventory.Add(obtainedItems);
+                        _inventory.Add(obtainedItems);
+                        break;
+                    }
+                    else if (hit.collider.gameObject.CompareTag("ItemEntity"))
+                    {
+                        var obtainedItems = hit.collider.gameObject.GetComponent<ItemEntity>().Harvest();
+
+                        _inventory.Add(obtainedItems);
+                        break;
+                    }
                 }
+                
             }
         }
     }

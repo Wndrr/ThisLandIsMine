@@ -74,7 +74,7 @@ public class Inventory : MonoBehaviour
 
     private void CraftThing(ItemId id)
     {
-        var itemToCraft = ItemsDatabase.Items.SingleOrDefault(s => s.Id == id);
+        var itemToCraft = ItemsDatabase.Instance.items.SingleOrDefault(s => s.Id == id);
 
         if (itemToCraft == null)
             throw new InvalidOperationException($"Item with id {id} does not exist");
