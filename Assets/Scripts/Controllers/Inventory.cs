@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Ui))]
 public class Inventory : MonoBehaviour
 {
-    
+    private Ui _ui;
+
     private List<ItemQuantity> Items { get; set; } = new List<ItemQuantity>();
-    
+
+    private void Start()
+    {
+        _ui = GetComponent<Ui>();
+    }
 
     public void Add(ItemQuantity obtainedItems)
     {
@@ -23,5 +29,7 @@ public class Inventory : MonoBehaviour
         {
             Items.Add(obtainedItems);
         }
+
+        _ui.UpdateInventory(Items);
     }
 }
