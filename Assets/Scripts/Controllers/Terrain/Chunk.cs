@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 
@@ -65,7 +65,9 @@ public class Chunk : MonoBehaviour
                 {
                     if (r > 100 && r < 350)
                     {
-                       Instantiate(TreePrefab, vertexToAdd + transform.position, Quaternion.identity, transform);
+                        var y = Math.Exp(bigPerlin);
+                        var orientation = new Vector3(0, (float)y, 0);
+                       Instantiate(TreePrefab, vertexToAdd + transform.position,Quaternion.Euler(orientation) , transform);
                     }
                 }
             }
