@@ -30,7 +30,7 @@ public class ChunkLoader : MonoBehaviour
 
         ChunkToLoadTransformations = ChunkToLoadTransformations.Distinct().ToList();
 
-        Load();
+        Load(true);
     }
 
     // Update is called once per frame
@@ -39,11 +39,11 @@ public class ChunkLoader : MonoBehaviour
         Load();
     }
 
-    private void Load()
+    private void Load(bool forceLoad = false)
     {
         var currentChunkPosition = GetCurrentChunkKey();
 
-        if (LastKnownChunkPosition == currentChunkPosition)
+        if (LastKnownChunkPosition == currentChunkPosition && !forceLoad)
             return;
 
         LastKnownChunkPosition = currentChunkPosition;

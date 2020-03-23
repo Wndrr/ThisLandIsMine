@@ -27,8 +27,6 @@ public class Chunk : MonoBehaviour
     public void Load(int chunkSize)
     {
         _mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = _mesh;
-        GetComponent<MeshCollider>().sharedMesh = _mesh;
         ChunkSize = chunkSize;
 
         CreateShape();
@@ -37,6 +35,8 @@ public class Chunk : MonoBehaviour
         _mesh.vertices = _vertices.Select(vertex => vertex + transform.position).ToArray();
         transform.position = Vector3.zero;
         _mesh.triangles = _triangles;
+        GetComponent<MeshFilter>().mesh = _mesh;
+        GetComponent<MeshCollider>().sharedMesh = _mesh;
     }
     
     private void CreateShape()
@@ -49,8 +49,9 @@ public class Chunk : MonoBehaviour
             for (var x = 0; x <= ChunkSize; x++)
             {
                 
-                var y = Mathf.PerlinNoise((transform.position.x + x  )* .004f, (transform.position.z + z) * .004f) * 30;
-                _vertices[i] = new Vector3(x, y, z);
+                var bigPerlin = Mathf.PerlinNoise((transform.position.x + x  )* .004f, (transform.position.z + z) * .004f) * 50;
+                var smallPerlin = Mathf.PerlinNoise((transform.position.x + x  )* .05f, (transform.position.z + z) * .05f) * 6;
+                _vertices[i] = new Vector3(x, bigPerlin + smallPerlin, z);
                 i++;
             }
         }
