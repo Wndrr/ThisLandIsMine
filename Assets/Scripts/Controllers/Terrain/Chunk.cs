@@ -76,9 +76,4 @@ public class Chunk : MonoBehaviour
             vert++;
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(transform.position, 1);
-    }
 }
