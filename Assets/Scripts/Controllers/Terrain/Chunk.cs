@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer))]
@@ -32,7 +33,7 @@ public class Chunk : MonoBehaviour
     {
         _vertices = new Vector3[(ChunkSize + 1) * (ChunkSize + 1)];
 
-        var rand = new System.Random();
+        var rand = new System.Random(42);
         var i = 0;
         for (var z = 0; z <= ChunkSize; z++)
         {
