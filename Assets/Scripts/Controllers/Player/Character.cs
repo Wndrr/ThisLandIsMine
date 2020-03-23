@@ -123,7 +123,12 @@ namespace Controllers.Player
             if (Input.GetKey(KeyCode.Q))
                 direction += -transform.right;
 
-            controller.SimpleMove(direction * speed);
+            var speedMultiplyer = 1;
+
+            if (Input.GetKey(KeyCode.LeftShift))
+                speedMultiplyer = 10;
+            
+            controller.SimpleMove(direction * (speed * speedMultiplyer));
         }
 
         private void OnDestroy()
