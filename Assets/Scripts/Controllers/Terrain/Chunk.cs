@@ -64,9 +64,9 @@ public class Chunk : MonoBehaviour
 
                 var forestPerlin = Mathf.PerlinNoise((transform.position.x + x) * .04f, (transform.position.z + z) * .04f);
                 // More trees higher on the map
-                if (forestPerlin > .75)
+                if (forestPerlin > .65)
                 {
-                    if (r > 100 && r < 350)
+                    if (r > 100 && r < 130)
                     {
                         Instantiate(TreePrefab, vertexToAdd + transform.position, rotation, transform);
                     }
