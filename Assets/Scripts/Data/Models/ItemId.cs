@@ -3,6 +3,8 @@
     public enum ItemId
     {
         Branch,
+        Berry,
+        Stone,
         ThrowableStick,
         MobMeat,
         MobSkin,

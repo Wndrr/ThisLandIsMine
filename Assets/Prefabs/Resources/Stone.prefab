@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1176257003134208379}
   - component: {fileID: 1176257003134208378}
   - component: {fileID: 5683296111742908636}
+  - component: {fileID: 7165784673101128553}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Resource
@@ -92,3 +93,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300002, guid: 18d47b085caa8c046b0229a559e1610f, type: 3}
+--- !u!114 &7165784673101128553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176257003134208356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037dfeba816cf3e489ab7a34b80daabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceCount: 10
+  harvestSpeed: 1
+  type: 1

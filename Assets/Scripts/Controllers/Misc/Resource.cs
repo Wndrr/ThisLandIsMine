@@ -1,4 +1,5 @@
-﻿using Data.Models;
+﻿using System;
+using Data.Models;
 using UnityEngine;
 
 namespace Controllers.Misc
@@ -18,7 +19,22 @@ namespace Controllers.Misc
                 Destroy(gameObject);
             }
 
-            return new ItemQuantity(ItemId.Branch, harvestSpeed);
+            return GetHarvestResult();
+        }
+
+        public ItemQuantity GetHarvestResult()
+        {
+            switch (type)
+            {
+                case ResourceEntityType.Bush:
+                    return new ItemQuantity(ItemId.Berry, 1);
+                case ResourceEntityType.Rock:
+                    return new ItemQuantity(ItemId.Stone, 1);
+                case ResourceEntityType.Tree:
+                    return new ItemQuantity(ItemId.Branch, 1);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     public enum ResourceEntityType
     {
-        Bush
+        Bush,
+        Rock,
+        Tree
     }
 }
