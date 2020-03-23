@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 public class ChunkLoader : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class ChunkLoader : MonoBehaviour
     void Start()
     {
         LoadedChunks = new Dictionary<Vector2, GameObject>(9);
-
         ChunkToLoadTransformations = new List<Vector2>(SquareRootOfNumberOfChunksToLoad * SquareRootOfNumberOfChunksToLoad);
         for (int i = -SquareRootOfNumberOfChunksToLoad / 2; i < SquareRootOfNumberOfChunksToLoad / 2; i++)
         {
@@ -83,5 +83,10 @@ public static class VectorExtensions
     public static Vector3 ToVector3(this Vector2 v2)
     {
         return new Vector3(v2.x, 0, v2.y);
+    }
+
+    public static Vector3 NegateXAndZ(this Vector3 source)
+    {
+        return new Vector3(-source.x,source.y, -source.z);
     }
 }
