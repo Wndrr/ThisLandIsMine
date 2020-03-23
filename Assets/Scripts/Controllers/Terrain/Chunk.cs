@@ -47,15 +47,18 @@ public class Chunk : MonoBehaviour
 
 
                 var r = rand.Next(0, 1000);
+                var y = Math.Exp(bigPerlin);
+                var orientation = new Vector3(0, (float) y, 0);
+                var rotation = Quaternion.Euler(orientation);
 
                 if (r == 1)
                 {
-                    Instantiate(StonePrefab, vertexToAdd + transform.position, Quaternion.identity, transform);
+                    Instantiate(StonePrefab, vertexToAdd + transform.position, rotation, transform);
                 }
 
                 else if (r == 18)
                 {
-                    Instantiate(BushPrefab, vertexToAdd + transform.position, Quaternion.identity, transform);
+                    Instantiate(BushPrefab, vertexToAdd + transform.position, rotation, transform);
                 }
 
 
@@ -65,9 +68,7 @@ public class Chunk : MonoBehaviour
                 {
                     if (r > 100 && r < 350)
                     {
-                        var y = Math.Exp(bigPerlin);
-                        var orientation = new Vector3(0, (float)y, 0);
-                       Instantiate(TreePrefab, vertexToAdd + transform.position,Quaternion.Euler(orientation) , transform);
+                        Instantiate(TreePrefab, vertexToAdd + transform.position, rotation, transform);
                     }
                 }
             }
