@@ -89,7 +89,7 @@ namespace Controllers.Player
             if (CanRecipeBeCrafted(itemToCraft.Recipe))
             {
                 Remove(itemToCraft.Recipe.ToArray());
-                Add(new ItemQuantity(ItemId.ThrowableStick, 1));
+                Add(new ItemQuantity(id, 1));
 
                 Events.Current.TriggerInventoryUpdate(Items);
             }

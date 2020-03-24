@@ -8,6 +8,7 @@
         ThrowableStick,
         MobMeat,
         MobSkin,
-        MobBone
+        MobBone,
+        ResourceManager
     }
 }
