@@ -13,7 +13,7 @@ namespace Controllers.Player
     {
         private Ui.Ui _ui;
 
-        private List<ItemQuantity> Items { get; set; } = new List<ItemQuantity>();
+        public List<ItemQuantity> Items { get; set; } = new List<ItemQuantity>();
 
         private void Start()
         {

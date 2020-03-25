@@ -50,14 +50,14 @@ namespace Controllers.Ui
 
         public void AddResource(ItemQuantity itemQuantity)
         {
-            if (missingResourceQuantities.Any(i => i.Id == itemQuantity.Id))
+            if (MissingResourceQuantities.Any(i => i.Id == itemQuantity.Id))
             {
-                var alreadyAddedQuantity = missingResourceQuantities.Single(s => s.Id == itemQuantity.Id);
+                var alreadyAddedQuantity = MissingResourceQuantities.Single(s => s.Id == itemQuantity.Id);
                 alreadyAddedQuantity.Quantity += itemQuantity.Quantity;
             }
             else
             {
-                missingResourceQuantities.Add(itemQuantity);
+                MissingResourceQuantities.Add(itemQuantity);
             }
 
             UpdateText();
@@ -67,7 +67,7 @@ namespace Controllers.Ui
         {
             var text = GetComponentsInChildren<Text>().Single(s => s.name == "resume");
             var builder = new StringBuilder();
-            foreach (var itemQuantity in missingResourceQuantities)
+            foreach (var itemQuantity in MissingResourceQuantities)
             {
                 builder.AppendLine(itemQuantity.ToString());
             }
@@ -75,6 +75,6 @@ namespace Controllers.Ui
             text.text = builder.ToString();
         }
         
-        private List<ItemQuantity> missingResourceQuantities = new List<ItemQuantity>();
+        public static readonly List<ItemQuantity> MissingResourceQuantities = new List<ItemQuantity>();
     }
 }

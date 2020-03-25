@@ -15,7 +15,7 @@ namespace Controllers.Ui
         // Start is called before the first frame update
         private void Start()
         {
-            Events.Current.OnInventoryUpdate += OnInventoryUpdate;
+            // Events.Current.OnInventoryUpdate += OnInventoryUpdate;
             _inventoryText = GetComponentInChildren<Text>();
         
         }
