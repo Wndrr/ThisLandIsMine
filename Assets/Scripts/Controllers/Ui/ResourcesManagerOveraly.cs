@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Controllers.Misc;
 using Data;
 using Data.Models;
@@ -20,34 +21,60 @@ namespace Controllers.Ui
         // Start is called before the first frame update
         private void Start()
         {
+            Events.Current.OnToggleResourceManagerOverlay += ToggleOverlay;
             _canvas = GetComponent<Canvas>();
             _canvas.enabled = false;
-
-            SelectableItemIds = new List<ItemId>()
-            {
-                ItemId.Berry,
-                ItemId.Branch,
-                ItemId.Stone,
-                ItemId.ThrowableStick
-            };
-
-            var j = 0;
-            foreach (var item in SelectableItemIds)
-            {
-                var btn = Instantiate(InputFieldPrefab, Vector3.zero, Quaternion.identity, transform.gameObject.transform);
-                btn.name = item.ToString();
-                btn.transform.position += (Vector3.up * 10) + (Vector3.up * (btn.transform.GetComponent<RectTransform>().rect.height * j));
-                btn.transform.position += (Vector3.right * (btn.transform.GetComponent<RectTransform>().rect.width * j)) + (Vector3.right * 10); 
-                // btn.GetComponent<InputField>().onEndEdit.AddListener(call => call.)
-                var text = btn.GetComponentInChildren<Text>();
-                text.text = item.ToString();
-                j++;
-            }
         }
+
+        private void ToggleOverlay()
+        {
+            Cursor.visible = !Cursor.visible;
+            _canvas.enabled = !_canvas.enabled;
+
+            if (Cursor.lockState == CursorLockMode.None)
+                Cursor.lockState = CursorLockMode.Locked;
+            else
+                Cursor.lockState = CursorLockMode.None;
+        }
+        public void HandleEscapeKey()
+        {
+            if (_canvas.enabled)
+                ToggleOverlay();
+        }
+
 
         private void OnDestroy()
         {
-            
+            Events.Current.OnToggleResourceManagerOverlay -= ToggleOverlay;
         }
+
+        public void AddResource(ItemQuantity itemQuantity)
+        {
+            if (missingResourceQuantities.Any(i => i.Id == itemQuantity.Id))
+            {
+                var alreadyAddedQuantity = missingResourceQuantities.Single(s => s.Id == itemQuantity.Id);
+                alreadyAddedQuantity.Quantity += itemQuantity.Quantity;
+            }
+            else
+            {
+                missingResourceQuantities.Add(itemQuantity);
+            }
+
+            UpdateText();
+        }
+
+        private void UpdateText()
+        {
+            var text = GetComponentsInChildren<Text>().Single(s => s.name == "resume");
+            var builder = new StringBuilder();
+            foreach (var itemQuantity in missingResourceQuantities)
+            {
+                builder.AppendLine(itemQuantity.ToString());
+            }
+
+            text.text = builder.ToString();
+        }
+        
+        private List<ItemQuantity> missingResourceQuantities = new List<ItemQuantity>();
     }
 }

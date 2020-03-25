@@ -16,10 +16,14 @@ namespace Controllers.Misc
 
         public event Action<List<ItemQuantity>> OnInventoryUpdate;
         public event Action OnToggleCraftingOverlay;
+        public event Action OnToggleResourceManagerOverlay;
+        public event Action OnEsc;
         public event Action<ItemId> OnCraftThing;
 
         public void TriggerInventoryUpdate(List<ItemQuantity> obtainedItems) => OnInventoryUpdate?.Invoke(obtainedItems);
         public void TriggerToggleCraftingOverlay() => OnToggleCraftingOverlay?.Invoke();
+        public void TriggerToggleResourceManagerOverlay() => OnToggleResourceManagerOverlay?.Invoke();
+        public void TriggerEsc() => OnEsc?.Invoke();
         public void TriggerCraftThing(ItemId id) => OnCraftThing?.Invoke(id);
     }
 }

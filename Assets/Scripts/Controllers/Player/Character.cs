@@ -50,8 +50,16 @@ namespace Controllers.Player
                 Instantiate(throwable, transformPosition, transformRotation);
             }
 
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Events.Current.TriggerEsc();
+            }
+
             if (Input.GetKeyDown(KeyCode.I))
                 Events.Current.TriggerToggleCraftingOverlay();
+            
+            if (Input.GetKeyDown(KeyCode.R))
+                Events.Current.TriggerToggleResourceManagerOverlay();
         }
 
         private void HandleLeftClick()
