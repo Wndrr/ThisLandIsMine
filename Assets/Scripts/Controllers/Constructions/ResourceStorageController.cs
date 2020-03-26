@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Controllers.Misc;
 using Controllers.Player;
 using Data.Models;
 using TMPro;
@@ -33,5 +34,6 @@ public class ResourceStorageController : MonoBehaviour
         }
 
         inventoryDisplay.text = builder.ToString();
+        Events.Current.TriggerResourceStorageUpdated(itemToStore);
     }
 }

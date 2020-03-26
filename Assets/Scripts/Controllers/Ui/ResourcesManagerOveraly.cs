@@ -22,6 +22,7 @@ namespace Controllers.Ui
         private void Start()
         {
             Events.Current.OnToggleResourceManagerOverlay += ToggleOverlay;
+            Events.Current.OnResourceStorageUpdated += UpdateResourceStorage;
             _canvas = GetComponent<Canvas>();
             _canvas.enabled = false;
         }
@@ -46,6 +47,18 @@ namespace Controllers.Ui
         private void OnDestroy()
         {
             Events.Current.OnToggleResourceManagerOverlay -= ToggleOverlay;
+            Events.Current.OnResourceStorageUpdated -= UpdateResourceStorage;
+        }
+
+        private void UpdateResourceStorage(ItemQuantity item)
+        {
+            var resource = MissingResourceQuantities.SingleOrDefault(s => s.Id == item.Id);
+            if (resource == null)
+                return;
+            resource.Quantity -= item.Quantity;
+            if (resource.Quantity < 0)
+                resource.Quantity = 0;
+            UpdateText();
         }
 
         public void AddResource(ItemQuantity itemQuantity)

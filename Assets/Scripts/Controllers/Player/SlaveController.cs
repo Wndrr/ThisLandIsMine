@@ -35,17 +35,25 @@ public class SlaveController : MonoBehaviour
     void Update()
     {
         var targetObject = GetTargetObject();
-        var direction = GetDirection(targetObject);
-        if (direction.magnitude > 3)
+        if (targetObject != null)
         {
-            GoToTarget(direction);
+
+            var direction = GetDirection(targetObject);
+            if (direction.magnitude > 3)
+            {
+                GoToTarget(direction);
+            }
+            else
+            {
+                if (_isCurrentTargetStorage)
+                    StoreIn(targetObject);
+                else
+                    Harvest(targetObject);
+            }
         }
         else
         {
-            if (_isCurrentTargetStorage)
-                StoreIn(targetObject);
-            else
-                Harvest(targetObject);
+            StatusText = "IDLE";
         }
 
         UpdateText();
@@ -114,7 +122,13 @@ public class SlaveController : MonoBehaviour
         StatusText = "Harvest";
         var resources = GameObject.FindGameObjectsWithTag("Resource");
 
-        var min = resources.OrderBy(resource => (resource.transform.position - transform.position).magnitude).FirstOrDefault();
+        var neededResourceTye = GetTargetResource();
+        if (neededResourceTye == null)
+            return null;
+
+        var min = resources
+            .Where(r => r.GetComponent<Resource>().type == neededResourceTye)
+            .OrderBy(resource => (resource.transform.position - transform.position).magnitude).FirstOrDefault();
         return min;
     }
 
@@ -126,10 +140,18 @@ public class SlaveController : MonoBehaviour
         return min;
     }
 
-    private ResourceEntityType GetTargetResource()
+    private ResourceEntityType? GetTargetResource()
     {
         var requests = ResourcesManagerOveraly.MissingResourceQuantities;
-        var targetItemId = requests.Select(r => r.Id).FirstOrDefault();
+        if (!requests.Any())
+            return null;
+
+        var itemQuantities = requests.Where(s => s.Quantity > 0);
+
+        if (!itemQuantities.Any())
+            return null;
+        
+        var targetItemId = itemQuantities.Select(r => r.Id).FirstOrDefault();
 
         switch (targetItemId)
         {
