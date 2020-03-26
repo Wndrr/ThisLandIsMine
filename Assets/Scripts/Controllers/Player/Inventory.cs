@@ -26,9 +26,7 @@ namespace Controllers.Player
             var alreadyStoredItemQuantity = Items.SingleOrDefault(i => i.Id == obtainedItems.Id);
             if (alreadyStoredItemQuantity != null)
             {
-                obtainedItems.Quantity += alreadyStoredItemQuantity.Quantity;
-                Items.Remove(alreadyStoredItemQuantity);
-                Items.Add(obtainedItems);
+                alreadyStoredItemQuantity.Quantity += obtainedItems.Quantity;
             }
             else
             {
