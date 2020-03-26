@@ -39,7 +39,9 @@ public class SlaveController : MonoBehaviour
         {
 
             var direction = GetDirection(targetObject);
-            if (direction.magnitude > 3)
+            var distanceToObject = direction.magnitude;
+            var objectOuterSize = targetObject.GetComponent<MeshRenderer>().bounds.size.magnitude;
+            if (distanceToObject > objectOuterSize)
             {
                 GoToTarget(direction);
             }
