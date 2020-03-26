@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Inventory))]
 public class ResourceStorageController : MonoBehaviour
 {
-    private Inventory _inventory;
+    public Inventory _inventory;
     // Start is called before the first frame update
     void Start()
     {
